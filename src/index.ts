@@ -1,7 +1,10 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import {runDb} from "./repositories/db";
+import {blogsRouter} from "./routes/blogsRouter";
+import {postsRouter} from "./routes/postsRouter";
+import {testingAllDataRouter} from "./routes/testingAllDataRouter";
 dotenv.config();
 
 const app = express();
@@ -9,10 +12,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hi!!!!');
-});
-
+app.use('/blogs', blogsRouter);
+app.use('/posts', postsRouter);
+app.use('/testing/all-data', testingAllDataRouter);
 
 export const startApp = async () => {
     await runDb();
